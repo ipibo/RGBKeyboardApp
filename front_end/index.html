@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+  <html>
+
+  <body>
+    <form action="/uploadFile" enctype="multipart/form-data" method="POST"> 
+      <input type="file" name="demo_image" />
+      <input id="sumbitbtn" type="submit" value="Upload a file"/>
+   </form>
+   <div id="loading"></div>
+
+  </body>
+  
+</html>
+
+<style>
+
+#loading {
+  width: 2rem;
+  height: 2rem;
+  border: 5px solid #f3f3f3;
+  border-top: 6px solid #9c41f2;
+  border-radius: 100%;
+  margin: auto;
+  visibility: hidden;
+  animation: spin 1s infinite linear;
+}
+
+#loading.display{
+  visibility: visible;
+}
+
+@keyframes spin{
+  from{
+    transform: rotate(0deg);
+  }to{
+    transform: rotate(360deg);
+  }
+
+}
+
+</style>
+
+<script>
+
+  const btn = document.getElementById("sumbitbtn")
+  const loader = document.getElementById("loading")
+  const displayLoader = () => loader.classList.add("display")
+
+  btn.addEventListener("click",displayLoader)
+
+
+</script>
