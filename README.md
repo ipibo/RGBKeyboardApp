@@ -12,3 +12,14 @@ Het programma heeft verschillende functies
 - De posities waar de toetsen zitten uitlezen en deze waardes opslaan
 
 
+
+todo:
+
+- [x] Knippen van de video in losse files op de server
+- [ ] Aanmaken van een nieuwe toetsenbord opstelling
+- [ ] Toesenbord over de video kunnen plaatsen
+- [ ] File maken voor de fysieke toetsenborden
+
+
+
+
