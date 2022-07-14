@@ -14,16 +14,7 @@ async function extractingFramesFromVideo(videoFile, tmpFolder){
 	})
 
 	// extract the frames from the video and put them in a folder called frames.
-	console.log('done with extracting the frames from the video');
-
-  // const numberOfFiles = getNumFiles(tmpFolder)
-  // console.log(numberOfFiles);
-  
-  // const info = await probe(videoFile)
-  // const numFramesTotal = parseInt(info.streams[0].nb_frames)
-
-  // res.redirect(`/showMovie.html?numberofframes=${numFramesTotal}`);
-  
+	console.log('done with extracting the frames from the video');  
 }
 
 function makefolder(folder){
