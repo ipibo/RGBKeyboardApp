@@ -96,7 +96,7 @@ app.post("/uploadFile", (req, res) => {
      res.status(400).send(`An error occured: ${err}`);
    }
 
-  //  extractingFramesFromVideo(`./Uploads/${req.file.originalname}`,'front_end/tmpFrames',res)
+   extractingFramesFromVideo(`./Uploads/${req.file.originalname}`,'front_end/tmpFrames',res)
   
 
   // res.redirect('/showMovie.html');
