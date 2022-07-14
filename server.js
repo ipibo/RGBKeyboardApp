@@ -23,6 +23,7 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/showMovie',(req,res)=>{
+  console.log('showmovie')
   res.sendFile(path.join(__dirname, 'front_end/showMovie.html'))
 })
 
@@ -44,8 +45,8 @@ async function extractingFramesFromVideo(videoFile, tmpFolder,res){
 	// extract the frames from the video and put them in a folder called frames.
 	console.log('done with extracting the frames from the video');
 
-  const numberOfFiles = getNumFiles(tmpFolder)
-  console.log(numberOfFiles);
+  // const numberOfFiles = getNumFiles(tmpFolder)
+  // console.log(numberOfFiles);
   
   const info = await probe(videoFile)
   const numFramesTotal = parseInt(info.streams[0].nb_frames)
@@ -89,13 +90,13 @@ function removeFolder(folderName){
 }
 
 app.post("/uploadFile", (req, res) => {
-  console.log('uploading file: ');
+  console.log('uploading file')
   upload(req, res, (err) => {
    if(err) {
      res.status(400).send(`An error occured: ${err}`);
    }
 
-   extractingFramesFromVideo(`./Uploads/${req.file.originalname}`,'front_end/tmpFrames',res)
+  //  extractingFramesFromVideo(`./Uploads/${req.file.originalname}`,'front_end/tmpFrames',res)
   
 
   // res.redirect('/showMovie.html');
