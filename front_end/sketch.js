@@ -12,6 +12,7 @@ function preload(){
   
   for(let i = 1 ; i <= numberofframes ; i++){  
     imagesFromFrames[i-1] = loadImage(`tmpFrames/frame-${i}.png`);
+    console.log('loading frame' + i );
   }
 }
 
