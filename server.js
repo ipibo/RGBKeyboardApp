@@ -90,7 +90,7 @@ function removeFolder(folderName){
 }
 
 app.post("/uploadFile", (req, res) => {
-  console.log('uploading file')
+  // console.log('uploading file')
   upload(req, res, (err) => {
    if(err) {
      res.status(400).send(`An error occured: ${err}`);
