@@ -16,7 +16,7 @@ Het programma heeft verschillende functies
 todo:
 
 - [x] Knippen van de video in losse files op de server
-- [ ] Aanmaken van een nieuwe toetsenbord opstelling
+- [x] Aanmaken van een nieuwe toetsenbord opstelling
 - [ ] Toesenbord over de video kunnen plaatsen
 - [ ] File maken voor de fysieke toetsenborden
 
