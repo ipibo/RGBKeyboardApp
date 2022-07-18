@@ -21,28 +21,32 @@ function readCoordinates(filePath){
 }
 
 const coorddata = readCoordinates('coords.txt')
-const splitted = coorddata.split('\n')
 
-const coords = splitted.map(d=>{
-  const c = d.split(' ')
-  return c
-})
-
+//makes a coord float array from the incomming data 
+const coords = coorddata
+  .split('\n')
+  .map(d=>[parseFloat(d.split(' ')[0]),parseFloat(d.split(' ')[1])])
 
 
 Jimp.read(startFrame)
   .then(image=>{
     // console.log(image)
-    coordsOfKeys.forEach(key=>{
-      const rgb = Jimp.intToRGBA(image.getPixelColor(key[0],key[1]))
+    // coordsOfKeys.forEach(key=>{
+    //   const rgb = Jimp.intToRGBA(image.getPixelColor(key[0],key[1]))
+    //   const hex = rgbToHex(rgb.r,rgb.g,rgb.b); 
+
+    // })
+
+    coords.forEach(c=>{
+      const rgb = Jimp.intToRGBA(image.getPixelColor(c[0],c[1]))
       const hex = rgbToHex(rgb.r,rgb.g,rgb.b); 
-
-      // console.log(hex)
-
-
     })
+
   })
-  .catch(err => console.err(err))
+  .catch(err => console.log(err))
+
+
+
 
 
 
