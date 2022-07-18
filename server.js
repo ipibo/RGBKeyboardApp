@@ -17,6 +17,7 @@ let removeTheFrames = false
 
 
 app.use(express.static('front_end'))
+app.use(express.static('setupKeyboard'))
 
 app.get('/',(req,res)=>{
   res.sendFile(path.join(__dirname, 'front_end/index.html'))
@@ -26,6 +27,14 @@ app.get('/showMovie',(req,res)=>{
   console.log('showmovie')
   res.sendFile(path.join(__dirname, 'front_end/showMovie.html'))
 })
+
+app.get('/setupKeyboard',(req,res)=>{
+  console.log('keyboardMaker')
+  
+  res.sendFile(path.join(__dirname, 'setupKeyboard/index.html'))
+})
+
+
 
 app.listen(PORT, () =>{
 	console.log(`example app listening on port ${PORT}`)
