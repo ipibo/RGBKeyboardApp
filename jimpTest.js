@@ -3,11 +3,47 @@ const Jimp = require('jimp')
 console.log('start reading one frame')
 
 let frameNummer = 1
-let startFrame = `front_end/tmpFrames/frame-${frameNummer}.png`
+// let startFrame = `front_end/tmpFrames/frame-${frameNummer}.png`
+let startFrame = `testFrame.jpg`
+
+// let coords = []
 
 const coordsOfKeys = [
   [10,10],
+  [400,100],
 ];
+
+
+const fs = require('fs');
+
+function readCoordinates(filePath){
+  return fs.readFileSync(filePath,'utf8');
+}
+
+const coorddata = readCoordinates('coords.txt')
+const splitted = coorddata.split('\n')
+
+const coords = splitted.map(d=>{
+  const c = d.split(' ')
+  return c
+})
+
+
+
+Jimp.read(startFrame)
+  .then(image=>{
+    // console.log(image)
+    coordsOfKeys.forEach(key=>{
+      const rgb = Jimp.intToRGBA(image.getPixelColor(key[0],key[1]))
+      const hex = rgbToHex(rgb.r,rgb.g,rgb.b); 
+
+      // console.log(hex)
+
+
+    })
+  })
+  .catch(err => console.err(err))
+
 
 
 function frameToPixels(value, frame){
@@ -44,7 +80,7 @@ function frameToPixels(value, frame){
 }
 
 
-const pixels = frameToPixels(0,startFrame)
+// const pixels = frameToPixels(0,startFrame)
 
 
 function componentToHex(c) {
