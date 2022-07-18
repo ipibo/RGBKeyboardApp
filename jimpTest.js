@@ -37,16 +37,21 @@ Jimp.read(startFrame)
 
     // })
 
+    let allColors = []
+
     coords.forEach(c=>{
       const rgb = Jimp.intToRGBA(image.getPixelColor(c[0],c[1]))
       const hex = rgbToHex(rgb.r,rgb.g,rgb.b); 
+      allColors.push(hex)
     })
+
+    fs.writeFile('colortest.txt', allColors.join(' '), function (err) {
+      if (err) return console.log(err);
+    });
+    
 
   })
   .catch(err => console.log(err))
-
-
-
 
 
 
@@ -72,7 +77,6 @@ function frameToPixels(value, frame){
       return
     }
 
-
     frameToPixels(0,startFrame)
 
     // return hex
@@ -93,5 +97,5 @@ function componentToHex(c) {
 }
 
 function rgbToHex(r, g, b) {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  return "" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
