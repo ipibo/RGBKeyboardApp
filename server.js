@@ -18,6 +18,7 @@ let removeTheFrames = false
 
 app.use(express.static('front_end'))
 app.use(express.static('setupKeyboard'))
+app.use(express.static('frameTester'))
 
 app.get('/',(req,res)=>{
   res.sendFile(path.join(__dirname, 'front_end/index.html'))
@@ -33,6 +34,13 @@ app.get('/setupKeyboard',(req,res)=>{
   
   res.sendFile(path.join(__dirname, 'setupKeyboard/index.html'))
 })
+
+app.get('/frameTester',(req,res)=>{
+  console.log('frameTester')
+  res.sendFile(path.join(__dirname, 'frameTester/index.html'))
+})
+
+
 
 
 
