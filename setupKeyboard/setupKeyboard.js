@@ -5,7 +5,7 @@ function preload() {
   keybrd = loadStrings('coords.txt');
 }
 
-const offSets = [
+const offsetOfEachKeyboard = [
   [0,10],
   [0,120],
   [370,10],
@@ -15,18 +15,15 @@ const offSets = [
 ];
 
 
-let p = [];
-
 let allKeyboards = []
 let saveButton; 
 let toggelChange;
-
 
 function setup(){
   createCanvas(1150,250);
   background(0);
 
-  offSets.forEach(off=>{
+  offsetOfEachKeyboard.forEach(off=>{
     // console.log(off);
     const tmpKeyboard = new Keyboard(keybrd,off[0],off[1]);
     // console.log(tmpKeyboard);

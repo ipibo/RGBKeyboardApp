@@ -2,19 +2,16 @@ const express = require('express')
 const extractFrame = require('ffmpeg-extract-frames')
 const ffmpeg = require('ffmpeg')
 const fs = require('fs')
-
 const path = require('path')
+const probe = require('ffmpeg-probe')
+
+const upload = require('./uploadFile.js')
 
 const app = express()
 const PORT = 3000
 const NAME_OF_TMP_FOLDER = 'tmpFrames'
 
-const upload = require('./uploadFile.js')
-
-const probe = require('ffmpeg-probe')
-
 let removeTheFrames = false
-
 
 app.use(express.static('front_end'))
 app.use(express.static('setupKeyboard'))
@@ -39,10 +36,6 @@ app.get('/frameTester',(req,res)=>{
   console.log('frameTester')
   res.sendFile(path.join(__dirname, 'frameTester/index.html'))
 })
-
-
-
-
 
 app.listen(PORT, () =>{
 	console.log(`example app listening on port ${PORT}`)
