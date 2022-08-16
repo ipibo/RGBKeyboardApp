@@ -27,12 +27,6 @@ function fileFilter (req, file, cb) {
   }
 }
 
-function test(){
-  console.log('hoi')
-
-}
-
-
 const upload = multer({
   storage,
   limits: {fileSize: 100000000},
