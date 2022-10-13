@@ -10,17 +10,17 @@ const offsetOfEachKeyboard = [
   [0,120],
   [370,10],
   [370,120],
-  [740,10],
-  [740,120]
+//   [740,10],
+//   [740,120]
 ];
-
 
 let allKeyboards = []
 let saveButton; 
 let toggelChange;
 
 function setup(){
-  createCanvas(1150,250);
+//   createCanvas(1150,250);
+  createCanvas(750,250);
   background(0);
 
   offsetOfEachKeyboard.forEach(off=>{

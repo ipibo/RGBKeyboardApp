@@ -42,8 +42,6 @@ app.listen(PORT, () =>{
 })
 
 async function extractingFramesFromVideo(videoFile, tmpFolder,res){
-
-
   res.redirect(`/showMovie.html`);
   //create a tmp folder for the frames
   console.log('create a tmp folder for the frames')
@@ -57,9 +55,6 @@ async function extractingFramesFromVideo(videoFile, tmpFolder,res){
 
 	// extract the frames from the video and put them in a folder called frames.
 	console.log('done with extracting the frames from the video');
-
-  // const numberOfFiles = getNumFiles(tmpFolder)
-  // console.log(numberOfFiles);
   
   const info = await probe(videoFile)
   const numFramesTotal = parseInt(info.streams[0].nb_frames)

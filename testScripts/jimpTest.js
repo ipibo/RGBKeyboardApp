@@ -1,41 +1,26 @@
-const Jimp = require('jimp')
+const Jimp = require('jimp');
+const fs = require('fs'); // file system
 
-console.log('start reading one frame')
+console.log('start reading one frame');
 
 let frameNummer = 1
 // let startFrame = `front_end/tmpFrames/frame-${frameNummer}.png`
 let startFrame = `testFrame.jpg`
 
-// let coords = []
-
-const coordsOfKeys = [
-  [10,10],
-  [400,100],
-];
-
-
-const fs = require('fs');
-
-function readCoordinates(filePath){
-  return fs.readFileSync(filePath,'utf8');
+//makes a coord float array from the incomming data 
+// This is the data from the coords of the keyboards. I have to find a way that the used can upload this
+function readCoordinates(filePath) {
+  return fs
+    .readFileSync(filePath, 'utf8')
+    .split('\n')
+    .map(d => [parseFloat(d.split(' ')[0]), parseFloat(d.split(' ')[1])]);
 }
 
-const coorddata = readCoordinates('coords.txt')
-
-//makes a coord float array from the incomming data 
-const coords = coorddata
-  .split('\n')
-  .map(d=>[parseFloat(d.split(' ')[0]),parseFloat(d.split(' ')[1])])
+const coords = readCoordinates('coords.txt')
 
 
 Jimp.read(startFrame)
   .then(image=>{
-    // console.log(image)
-    // coordsOfKeys.forEach(key=>{
-    //   const rgb = Jimp.intToRGBA(image.getPixelColor(key[0],key[1]))
-    //   const hex = rgbToHex(rgb.r,rgb.g,rgb.b); 
-
-    // })
 
     let allColors = []
 
@@ -49,11 +34,8 @@ Jimp.read(startFrame)
       if (err) return console.log(err);
     });
     
-
   })
   .catch(err => console.log(err))
-
-
 
 function frameToPixels(value, frame){
 
@@ -92,10 +74,10 @@ function frameToPixels(value, frame){
 
 
 function componentToHex(c) {
-  var hex = c.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
+var hex = c.toString(16);
+return hex.length == 1 ? "0" + hex : hex;
 }
 
 function rgbToHex(r, g, b) {
-  return "" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+return "" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }

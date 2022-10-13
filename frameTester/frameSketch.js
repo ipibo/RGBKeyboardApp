@@ -1,44 +1,65 @@
-let colors
-let keybrd
-function preload(){
-  colors = loadStrings('data/colortest.txt')
+/* eslint-disable no-bitwise */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+let colors;
+let keybrd;
+let numberOfFrames;
+function preload() {
+  colors = loadStrings('data/colortest.txt');
   keybrd = loadStrings('data/coords.txt');
 }
 
-function setup(){
-  createCanvas(1150,250);
+function setup() {
+  createCanvas(1150, 250);
   background(0);
-  noLoop();
+  // noLoop();
 
   const lengthOfColors = colors[0].split(' ').length;
   const lengthOfKeyboard = keybrd.length;
 
-  if(lengthOfColors != lengthOfKeyboard){
-    alert('lengte van het keyboard en de kleuren komen niet overeen. check je files even!');
-  }
+  numberOfFrames = lengthOfColors;
 
-  const thiscolors = colors[0].split(' ');
+  colors.forEach((frame) => {
+    // console.log(frame);
+  });
 
-  thiscolors.forEach((color,i)=>{    
-    const x = keybrd[i].split(' ')[0]
-    const y = keybrd[i].split(' ')[1]
-    const hexColor = hexToRgb(color)
-
-    fill(hexColor);
-    ellipse(x,y,10,10);
-
-  })
-
+  // if (lengthOfColors !== lengthOfKeyboard) {
+  //   const newLocal = 'lengte van het keyboard en de kleuren komen niet overeen. check je files even!';
+  //   alert(newLocal);
+  // }
 }
 
-
 function hexToRgb(hex) {
+  const bigint = parseInt(hex, 16);
 
-  var bigint = parseInt(hex, 16);
-
-  var r = (bigint >> 16) & 255;
-  var g = (bigint >> 8) & 255;
-  var b = bigint & 255;
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
 
   return color(r, g, b);
+}
+
+let currentFrame = 0;
+
+function draw() {
+  currentFrame += 1;
+  if (currentFrame > 299) {
+    currentFrame = 0;
+  }
+  // print(currentFrame);
+  const thiscolors = colors[currentFrame].split(' ');
+
+  thiscolors.forEach((color, i) => {
+    const x = keybrd[i].split(' ')[0];
+    const y = keybrd[i].split(' ')[1];
+    const hexColor = hexToRgb(color);
+
+    fill(hexColor);
+    ellipse(x, y, 10, 10);
+  });
+}
+
+function keyPressed() {
+  currentFrame += 1;
+  print(currentFrame);
 }
