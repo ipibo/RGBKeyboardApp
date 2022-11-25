@@ -11,9 +11,6 @@ const TMPFOLDER = 'tmpfolder';
 const VIDEO = '30vs120.mp4';
 const OUTPUTFILE = 'colortest.txt';
 
-
-
-
 function componentToHex(c) {
   const hex = c.toString(16);
   return hex.length === 1 ? `0${hex}` : hex;
