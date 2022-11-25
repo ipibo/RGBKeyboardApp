@@ -18,7 +18,11 @@ function setup() {
   const lengthOfColors = colors[0].split(' ').length;
   const lengthOfKeyboard = keybrd.length;
 
-  numberOfFrames = lengthOfColors;
+
+
+  console.log(colors.length)
+
+  numberOfFrames = colors.length -1 
 
   colors.forEach((frame) => {
     // console.log(frame);
@@ -44,7 +48,8 @@ let currentFrame = 0;
 
 function draw() {
   currentFrame += 1;
-  if (currentFrame > 100) {
+  console.log(currentFrame)
+  if (currentFrame > numberOfFrames) {
     currentFrame = 0;
   }
   // print(currentFrame);

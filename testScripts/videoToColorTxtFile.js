@@ -11,6 +11,9 @@ const TMPFOLDER = 'tmpfolder';
 const VIDEO = '30vs120.mp4';
 const OUTPUTFILE = 'colortest.txt';
 
+
+
+
 function componentToHex(c) {
   const hex = c.toString(16);
   return hex.length === 1 ? `0${hex}` : hex;
@@ -104,8 +107,8 @@ function readCoordinates(filePath) {
     .map((d) => [parseFloat(d.split(' ')[0]), parseFloat(d.split(' ')[1])]);
 }
 
-const start = async (outputfile) => {
-  const result = await extractFramesFromVideo(VIDEO, TMPFOLDER);
+const start = async (video,outputfile) => {
+  const result = await extractFramesFromVideo(video, TMPFOLDER);
   const startFrameNumber = 1;
   const stringsToAppend = [];
   const coordinatesOfKeys = readCoordinates(COORDSFILE);
@@ -131,4 +134,12 @@ const start = async (outputfile) => {
   removeFolder(TMPFOLDER);
 };
 
-start(OUTPUTFILE);
+
+if (process.argv[2] != null){
+    console.log('start to render outputfile ')
+    start(process.argv[2],OUTPUTFILE);
+}else{
+    console.log("please provide file SJEF  ")
+}
+
+
