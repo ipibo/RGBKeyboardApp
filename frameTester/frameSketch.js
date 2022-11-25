@@ -12,7 +12,7 @@ function preload() {
 
 function setup() {
   createCanvas(1150, 250);
-  background(0);
+  background(30);
   // noLoop();
 
   const lengthOfColors = colors[0].split(' ').length;
