@@ -4,6 +4,7 @@
 let colors;
 let keybrd;
 let numberOfFrames;
+
 function preload() {
   colors = loadStrings('data/colortest.txt');
   keybrd = loadStrings('data/coords.txt');
@@ -43,7 +44,7 @@ let currentFrame = 0;
 
 function draw() {
   currentFrame += 1;
-  if (currentFrame > 299) {
+  if (currentFrame > 100) {
     currentFrame = 0;
   }
   // print(currentFrame);

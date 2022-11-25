@@ -8,7 +8,7 @@ const probe = require('ffmpeg-probe');
 // Consts
 const COORDSFILE = 'newCoordinates.txt';
 const TMPFOLDER = 'tmpfolder';
-const VIDEO = 'test.mp4';
+const VIDEO = '30vs120.mp4';
 const OUTPUTFILE = 'colortest.txt';
 
 function componentToHex(c) {
