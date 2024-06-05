@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <a href="/frameTester">ga naar de frametester</a>
+    <div class="elements">
+      <a href="/frameTester">ga naar de frametester</a>
 
-    <br />
-    <a href="/setupKeyboard">ga naar de setup</a>
-    <div id="loading"></div>
+      <br />
+      <a href="/setupKeyboard">ga naar de setup</a>
+      <div id="loading"></div>
+    </div>
   </body>
 </html>
 
@@ -32,6 +34,37 @@
     to {
       transform: rotate(360deg);
     }
+  }
+
+  body {
+    height: 100vh;
+  }
+
+  .elements {
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* gap: 50px */
+    flex-direction: column;
+    margin: auto;
+  }
+
+  .elements a {
+    background-color: #9c41f2;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 50px;
+    color: white;
+    text-decoration: none;
+    font-family: "Courier New", Courier, monospace;
+    border-radius: 10px 10px 10px 10px;
+    margin: 10px;
+    box-shadow: 0px 0px 10px 0px #9c41f2;
   }
 </style>
 

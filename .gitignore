@@ -9,3 +9,11 @@ frame.png
 colortest.txt
 *.mov
 .DS_Store
+
+scriptgenerator/*.mp4
+scriptgenerator/*.jpg
+scriptgenerator/*.png
+
+setupKeyboard/data/*.jpg
+setupKeyboard/data/*.png
+setupKeyboard/data/*.mp4

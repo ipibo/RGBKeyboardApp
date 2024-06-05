@@ -8,7 +8,7 @@ let img
 
 function preload() {
   keybrd = loadStrings("coords.txt")
-  img = loadImage("data/kalibratie.png")
+  img = loadImage("data/kalibratie.jpg")
 
   try {
     allkeyboardloadedData = loadJSON("keyboardLayout.json")
@@ -82,7 +82,8 @@ function setup() {
 
 function draw() {
   background(0)
-  image(img, 0, 0, img.width / 3.25, img.height / 3.25)
+  image(img, 0, 0)
+  // image(img, 0, 0, img.width / 3.25, img.height / 3.25)
   // console.log(img.width / 3.7, img.height / 3.7)
 
   // console.log(allKeyboards);
