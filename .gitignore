@@ -8,3 +8,4 @@ tmpfolder/
 frame.png
 colortest.txt
 *.mov
+.DS_Store
