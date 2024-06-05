@@ -2,84 +2,79 @@ let keybrd;
 let showRects = false;
 
 function preload() {
-  keybrd = loadStrings('coords.txt');
+  keybrd = loadStrings("coords.txt");
 }
 
 const offsetOfEachKeyboard = [
-  [0,10],
-  [0,120],
-  [370,10],
-  [370,120],
-//   [740,10],
-//   [740,120]
+  [0, 10],
+  [0, 120],
+  [734, 13],
+  [370, 10],
+  [370, 120],
+  [727, 118],
+  //   [740,10],
+  //   [740,120]
 ];
 
-let allKeyboards = []
-let saveButton; 
+let allKeyboards = [];
+let saveButton;
 let toggelChange;
 
-function setup(){
-  createCanvas(1150,250);
-//   createCanvas(1150,500);
-//   createCanvas(750,250);
+function setup() {
+  // createCanvas(1150, 500);
+  createCanvas(1150, 250);
+  //   createCanvas(750,250);
   background(0);
 
-  offsetOfEachKeyboard.forEach(off=>{
+  offsetOfEachKeyboard.forEach((off) => {
     // console.log(off);
-    const tmpKeyboard = new Keyboard(keybrd,off[0],off[1]);
+    const tmpKeyboard = new Keyboard(keybrd, off[0], off[1]);
     // console.log(tmpKeyboard);
     allKeyboards.push(tmpKeyboard);
-  })
-  
-  saveButton = createButton('save coordinates');
-  saveButton.position(10,400);
-  saveButton.mousePressed(saveKeyboard);
-  
-  toggleChange = createButton('change coordinates');
-  toggleChange.position(150,400);
-  toggleChange.mousePressed(()=>{
-    showRects = !showRects
   });
 
+  saveButton = createButton("save coordinates");
+  saveButton.position(10, 800);
+  saveButton.mousePressed(saveKeyboard);
 
-
+  toggleChange = createButton("change coordinates");
+  toggleChange.position(150, 800);
+  toggleChange.mousePressed(() => {
+    showRects = !showRects;
+  });
 }
 
-
-
-function draw(){
-  background(0)
+function draw() {
+  background(0);
   // console.log(allKeyboards);
   fill(255);
-  allKeyboards.forEach((keyboard,i)=>{
+  allKeyboards.forEach((keyboard, i) => {
     fill(255);
-    keyboard.keyboardArray.forEach(k=>{
-      ellipse(k[0],k[1],10,10);
-    })
+    keyboard.keyboardArray.forEach((k) => {
+      ellipse(k[0], k[1], 10, 10);
+    });
 
-    if(keyboard.enabled){
-      fill(0,255,0);
-    }else{
+    if (keyboard.enabled) {
+      fill(0, 255, 0);
+    } else {
       fill(255);
     }
 
-    if(showRects){
-      rect(keyboard.startX,keyboard.startY,keyboard.endX,keyboard.endY);
+    if (showRects) {
+      rect(keyboard.startX, keyboard.startY, keyboard.endX, keyboard.endY);
       fill(0);
-      text(`${keyboard.startX}, ${keyboard.startY}`, keyboard.startX+3, keyboard.startY+15);
-      text(i, keyboard.startX+3, keyboard.startY+25);
-      
+      text(
+        `${keyboard.startX}, ${keyboard.startY}`,
+        keyboard.startX + 3,
+        keyboard.startY + 15,
+      );
+      text(i, keyboard.startX + 3, keyboard.startY + 25);
     }
-
-
-  })
-
-
+  });
 }
 
-class Keyboard{
-  
-  constructor(keyboard,startX,startY){
+class Keyboard {
+  constructor(keyboard, startX, startY) {
     this.keyboardStringArray = keyboard;
     this.startX = startX;
     this.startY = startY;
@@ -88,116 +83,99 @@ class Keyboard{
     this.endX = 50;
     this.endY = 50;
 
-
-    this.keyboardArray = this.keyboardStringArray.map(k=>{
-      const tmp = k.split(' ');
+    this.keyboardArray = this.keyboardStringArray.map((k) => {
+      const tmp = k.split(" ");
       const xPositionPlusOffset = parseFloat(tmp[0]) + this.startX;
       const yPositionPlusOffset = parseFloat(tmp[1]) + this.startY;
-      return [xPositionPlusOffset,yPositionPlusOffset];
-    })
-    
+      return [xPositionPlusOffset, yPositionPlusOffset];
+    });
   }
 
-  setNewPositon(newPos){
-    this.startX = this.startX + newPos[0]
-    this.startY = this.startY + newPos[1]
-    this.keyboardArray = this.keyboardStringArray.map(k=>{
-      const tmp = k.split(' ');
+  setNewPositon(newPos) {
+    this.startX = this.startX + newPos[0];
+    this.startY = this.startY + newPos[1];
+    this.keyboardArray = this.keyboardStringArray.map((k) => {
+      const tmp = k.split(" ");
       const xPositionPlusOffset = parseFloat(tmp[0]) + this.startX;
       const yPositionPlusOffset = parseFloat(tmp[1]) + this.startY;
-      return [xPositionPlusOffset,yPositionPlusOffset];
-    })
+      return [xPositionPlusOffset, yPositionPlusOffset];
+    });
   }
-
-
-
-  
 }
 
-
-function mousePressed(){
-
-  allKeyboards.forEach(k=>{
+function mousePressed() {
+  allKeyboards.forEach((k) => {
     // check of de muis in het vakje is
     k.enabled = false;
 
-    if(mouseX > k.startX && mouseX < k.startX + k.endX){
-      if(mouseY > k.startY && mouseY < k.startY + k.endY){
-        k.enabled = true; 
+    if (mouseX > k.startX && mouseX < k.startX + k.endX) {
+      if (mouseY > k.startY && mouseY < k.startY + k.endY) {
+        k.enabled = true;
       }
     }
-  })
+  });
 }
 
+function mouseDragged(event) {
+  let newPos = [event.movementX, event.movementY];
 
-function mouseDragged(event){
-  let newPos = [event.movementX,event.movementY]
-  
-  allKeyboards.forEach(k=>{
-    if(k.enabled && showRects){
+  allKeyboards.forEach((k) => {
+    if (k.enabled && showRects) {
       k.setNewPositon(newPos);
     }
-  })
-
+  });
 }
 
+let keyboards = [];
 
+function saveKeyboard() {
+  console.log("save position of the keyboards");
 
-let keyboards =[]
-
-
-function saveKeyboard(){
-  console.log('save position of the keyboards')
-
-  let stringToSave = []
-  allKeyboards.forEach(keyboard=>{
-    keyboard.keyboardArray.forEach(k=>{
+  let stringToSave = [];
+  allKeyboards.forEach((keyboard) => {
+    keyboard.keyboardArray.forEach((k) => {
       stringToSave.push(`${k[0]} ${k[1]}`);
-    })
-  })
+    });
+  });
 
-  saveStrings(stringToSave,'newCoordinates.txt');
-
+  saveStrings(stringToSave, "newCoordinates.txt");
 }
 
-function keyPressed(){
-
-
-  if(key === 's'){
-    saveKeyboard()
+function keyPressed() {
+  if (key === "s") {
+    saveKeyboard();
   }
 
-  let newPos = []
+  let newPos = [];
 
   let posChange = false;
 
-  if(key === 'ArrowUp'){
-    newPos = [0,-1]
+  if (key === "ArrowUp") {
+    newPos = [0, -1];
     posChange = true;
   }
-  if(key === 'ArrowDown'){
-    newPos = [0,1]
+  if (key === "ArrowDown") {
+    newPos = [0, 1];
     posChange = true;
   }
-  if(key === 'ArrowLeft'){
-    newPos = [-1,0]
+  if (key === "ArrowLeft") {
+    newPos = [-1, 0];
     posChange = true;
   }
-  if(key === 'ArrowRight'){
-    newPos = [1,0]
+  if (key === "ArrowRight") {
+    newPos = [1, 0];
     posChange = true;
   }
 
-  if(posChange ){
-    allKeyboards.forEach(k=>{
-      if(k.enabled && showRects){
+  if (posChange) {
+    allKeyboards.forEach((k) => {
+      if (k.enabled && showRects) {
         k.setNewPositon(newPos);
       }
-    })
+    });
   }
 
-  if(key === ' '){
-   showRects = !showRects; 
+  if (key === " ") {
+    showRects = !showRects;
   }
-
 }

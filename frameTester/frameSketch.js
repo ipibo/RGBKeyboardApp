@@ -6,8 +6,8 @@ let keybrd;
 let numberOfFrames;
 
 function preload() {
-  colors = loadStrings('data/colortest.txt');
-  keybrd = loadStrings('data/coords.txt');
+  colors = loadStrings("data/colortest.txt");
+  keybrd = loadStrings("data/coords.txt");
 }
 
 function setup() {
@@ -15,14 +15,12 @@ function setup() {
   background(30);
   // noLoop();
 
-  const lengthOfColors = colors[0].split(' ').length;
+  const lengthOfColors = colors[0].split(" ").length;
   const lengthOfKeyboard = keybrd.length;
 
+  console.log(colors.length);
 
-
-  console.log(colors.length)
-
-  numberOfFrames = colors.length -1 
+  numberOfFrames = colors.length - 1;
 
   colors.forEach((frame) => {
     // console.log(frame);
@@ -48,16 +46,17 @@ let currentFrame = 0;
 
 function draw() {
   currentFrame += 1;
-  console.log(currentFrame)
+  console.log(currentFrame);
   if (currentFrame > numberOfFrames) {
     currentFrame = 0;
   }
   // print(currentFrame);
-  const thiscolors = colors[currentFrame].split(' ');
+  const thiscolors = colors[currentFrame].split(" ");
+  console.log(thiscolors);
 
   thiscolors.forEach((color, i) => {
-    const x = keybrd[i].split(' ')[0];
-    const y = keybrd[i].split(' ')[1];
+    const x = keybrd[i].split(" ")[0];
+    const y = keybrd[i].split(" ")[1];
     const hexColor = hexToRgb(color);
 
     fill(hexColor);
