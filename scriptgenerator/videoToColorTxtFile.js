@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 // libraries
-const extractFrame = require('ffmpeg-extract-frames');
-const fs = require('fs');
-const Jimp = require('jimp');
-const probe = require('ffmpeg-probe');
+const extractFrame = require("ffmpeg-extract-frames");
+const fs = require("fs");
+const Jimp = require("jimp");
+const probe = require("ffmpeg-probe");
 
 // Consts
-const COORDSFILE = 'newCoordinates.txt';
-const TMPFOLDER = 'tmpfolder';
-const VIDEO = '30vs120.mp4';
-const OUTPUTFILE = 'colortest.txt';
+const COORDSFILE = "newCoordinates.txt";
+const TMPFOLDER = "tmpfolder";
+const VIDEO = "30vs120.mp4";
+const OUTPUTFILE = "colortest.txt";
 
 function componentToHex(c) {
   const hex = c.toString(16);
@@ -32,7 +32,7 @@ function analyseFrame(coordinatesOfKeys, startFrame, stringsToAppend, i) {
       });
 
       // eslint-disable-next-line no-param-reassign
-      stringsToAppend[i] = allColors.join(' ');
+      stringsToAppend[i] = allColors.join(" ");
     })
     .catch((err) => console.log(err));
 }
@@ -91,20 +91,20 @@ function appendToFile(stp, currentFrame, totalFrames) {
   let stringToAppend = stp;
 
   if (currentFrame !== totalFrames) {
-    stringToAppend += '\n';
+    stringToAppend += "\n";
   }
 
-  fs.appendFileSync('colortest.txt', `${stringToAppend}`);
+  fs.appendFileSync("colortest.txt", `${stringToAppend}`);
 }
 
 function readCoordinates(filePath) {
   return fs
-    .readFileSync(filePath, 'utf8')
-    .split('\n')
-    .map((d) => [parseFloat(d.split(' ')[0]), parseFloat(d.split(' ')[1])]);
+    .readFileSync(filePath, "utf8")
+    .split("\n")
+    .map((d) => [parseFloat(d.split(" ")[0]), parseFloat(d.split(" ")[1])]);
 }
 
-const start = async (video,outputfile) => {
+const start = async (video, outputfile) => {
   const result = await extractFramesFromVideo(video, TMPFOLDER);
   const startFrameNumber = 1;
   const stringsToAppend = [];
@@ -131,12 +131,9 @@ const start = async (video,outputfile) => {
   removeFolder(TMPFOLDER);
 };
 
-
-if (process.argv[2] != null){
-    console.log('start to render outputfile ')
-    start(process.argv[2],OUTPUTFILE);
-}else{
-    console.log("please provide file SJEF  ")
+if (process.argv[2] != null) {
+  console.log("start to render outputfile ");
+  start(process.argv[2], OUTPUTFILE);
+} else {
+  console.log("please provide file SJEF  ");
 }
-
-

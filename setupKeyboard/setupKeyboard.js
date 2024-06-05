@@ -21,8 +21,8 @@ let saveButton;
 let toggelChange;
 
 function setup() {
-  // createCanvas(1150, 500);
-  createCanvas(1150, 250);
+  createCanvas(1150, 500);
+  // createCanvas(1150, 250);
   //   createCanvas(750,250);
   background(0);
 
@@ -49,7 +49,9 @@ function draw() {
   // console.log(allKeyboards);
   fill(255);
   allKeyboards.forEach((keyboard, i) => {
-    fill(255);
+    // fill(255);
+    noFill();
+    stroke(255);
     keyboard.keyboardArray.forEach((k) => {
       ellipse(k[0], k[1], 10, 10);
     });
