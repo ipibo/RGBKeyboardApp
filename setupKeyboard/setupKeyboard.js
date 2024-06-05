@@ -1,8 +1,20 @@
 let keybrd
 let showRects = false
 
+const addingNewKeyboard = false
+
+let allkeyboardloadedData
+let img
+
 function preload() {
   keybrd = loadStrings("coords.txt")
+  img = loadImage("data/kalibratie.png")
+
+  try {
+    allkeyboardloadedData = loadJSON("keyboardLayout.json")
+  } catch (error) {
+    console.log("no data")
+  }
 }
 
 const offsetOfEachKeyboard = [
@@ -12,27 +24,51 @@ const offsetOfEachKeyboard = [
   [370, 10],
   [370, 120],
   [727, 118],
-  //   [740,10],
-  //   [740,120]
+  [740, 10],
+  [740, 120],
+  [0, 230],
 ]
 
 let allKeyboards = []
 let saveButton
 let toggelChange
 
+function handleImage(file) {}
+
 function setup() {
-  createCanvas(1150, 500)
+  createCanvas(1400, 500)
   // createCanvas(1150, 250);
   //   createCanvas(750,250);
   background(0)
 
-  offsetOfEachKeyboard.forEach((off) => {
-    // console.log(off);
-    const tmpKeyboard = new Keyboard(keybrd, off[0], off[1])
-    // console.log(tmpKeyboard);
-    allKeyboards.push(tmpKeyboard)
-  })
+  if (addingNewKeyboard) {
+    offsetOfEachKeyboard.forEach((off) => {
+      // console.log(off);
+      const tmpKeyboard = new Keyboard(keybrd, off[0], off[1])
+      // console.log(tmpKeyboard);
+      allKeyboards.push(tmpKeyboard)
+    })
+  } else {
+    console.log()
 
+    var result = Object.keys(allkeyboardloadedData).forEach((key) => {
+      console.log(allkeyboardloadedData[key].keyboardArray)
+      console.log(allkeyboardloadedData[key].startX)
+      console.log(allkeyboardloadedData[key].startY)
+      const tmpKeyboard = new Keyboard(
+        allkeyboardloadedData[key].keyboardStringArray,
+        allkeyboardloadedData[key].startX,
+        allkeyboardloadedData[key].startY
+      )
+
+      // const tmpKeyboard = allkeyboardloadedData[key]
+      // console.log(tmpKeyboard)
+      allKeyboards.push(tmpKeyboard)
+    })
+    // turn allkeyboardloadedData into a array of keyboards
+  }
+
+  console.log(allKeyboards)
   saveButton = createButton("save coordinates")
   saveButton.position(10, 800)
   saveButton.mousePressed(saveKeyboard)
@@ -46,6 +82,9 @@ function setup() {
 
 function draw() {
   background(0)
+  image(img, 0, 0, img.width / 3.25, img.height / 3.25)
+  // console.log(img.width / 3.7, img.height / 3.7)
+
   // console.log(allKeyboards);
   fill(255)
   allKeyboards.forEach((keyboard, i) => {
@@ -132,6 +171,7 @@ let keyboards = []
 
 async function saveKeyboard() {
   console.log("save position of the keyboards")
+  console.log(allKeyboards)
 
   let stringToSave = []
   allKeyboards.forEach((keyboard) => {
@@ -139,15 +179,13 @@ async function saveKeyboard() {
       stringToSave.push(`${k[0]} ${k[1]}`)
     })
   })
-  // console.log(stringToSave.length)
-  // console.log(stringToSave[stringToSave.length - 1])
 
   const response = await fetch("http://localhost:3000/saveFile", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ keyboardLayout: stringToSave }),
+    body: JSON.stringify({ keyboardLayout: stringToSave, allKeyboards }),
   })
 
   // saveStrings(stringToSave, "newCoordinates.txt")

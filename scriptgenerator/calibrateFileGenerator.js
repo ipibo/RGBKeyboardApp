@@ -9,7 +9,7 @@ const probe = require("ffmpeg-probe")
 const COORDSFILE = "newCoordinates.txt"
 const TMPFOLDER = "tmpfolder"
 const VIDEO = "30vs120.mp4"
-const OUTPUTFILE = "colortest.txt"
+const OUTPUTFILE = "../frameTester/data/colortest.txt"
 
 function componentToHex(c) {
   const hex = c.toString(16)
@@ -71,7 +71,7 @@ function appendToFile(stp, currentFrame, totalFrames) {
     stringToAppend += "\n"
   }
 
-  fs.appendFileSync("colortest.txt", `${stringToAppend}`)
+  fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
 }
 
 function readCoordinates(filePath) {
