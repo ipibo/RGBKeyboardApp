@@ -28,9 +28,24 @@ async function analyseFrame(coordinatesOfKeys, startFrame) {
       coordinatesOfKeys.forEach((c) => {
         const rgb = Jimp.intToRGBA(image.getPixelColor(c[0], c[1]))
         const hex = rgbToHex(rgb.r, rgb.g, rgb.b)
-        allColors.push(hex)
-      })
 
+        const binary =
+          rgb.r.toString(2).padStart(8, "0") +
+          rgb.g.toString(2).padStart(8, "0") +
+          rgb.b.toString(2).padStart(8, "0")
+        // console.log(binary)
+
+        const rgbArray = [
+          rgb.r.toFixed(1),
+          rgb.g.toFixed(1),
+          rgb.b.toFixed(1),
+          (1.0).toFixed(1),
+        ]
+
+        allColors.push(binary)
+      })
+      // console.log(allColors)
+      // return allColors
       return allColors.join(" ")
     })
     .catch((err) => console.log(err))
@@ -102,13 +117,19 @@ async function extractFramesFromVideo(videoFile, tmpFolder, coordinatesOfKeys) {
 
 // Ik wil er nog zorgen dat de laaste regel niet wordt overgeslagen
 function appendToFile(stp, currentFrame, totalFrames) {
+  // console.log("stp")
+  // console.log(stp)
+  // exit()
   let stringToAppend = stp
 
   if (currentFrame !== totalFrames) {
     stringToAppend += "\n"
   }
 
-  fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
+  // fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
+  // fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
+
+  fs.writeFile(OUTPUTFILE, "b", 0b000000000000000000000000)
 }
 
 function readCoordinates(filePath) {
