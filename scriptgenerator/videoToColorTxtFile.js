@@ -9,7 +9,7 @@ const probe = require("ffmpeg-probe")
 const COORDSFILE = "newCoordinates.txt"
 const TMPFOLDER = "tmpfolder"
 const VIDEO = "30vs120.mp4"
-const OUTPUTFILE = "../frameTester/data/colortest.txt"
+const OUTPUTFILE = "../frameTester/data/colortest.bin"
 
 function componentToHex(c) {
   const hex = c.toString(16)
@@ -27,13 +27,13 @@ async function analyseFrame(coordinatesOfKeys, startFrame) {
 
       coordinatesOfKeys.forEach((c) => {
         const rgb = Jimp.intToRGBA(image.getPixelColor(c[0], c[1]))
+        //        console.log(image.getPixelColor(c[0], c[1]), rgb)
         const hex = rgbToHex(rgb.r, rgb.g, rgb.b)
 
         const binary =
           rgb.r.toString(2).padStart(8, "0") +
           rgb.g.toString(2).padStart(8, "0") +
           rgb.b.toString(2).padStart(8, "0")
-        // console.log(binary)
 
         const rgbArray = [
           rgb.r.toFixed(1),
@@ -46,7 +46,7 @@ async function analyseFrame(coordinatesOfKeys, startFrame) {
       })
       // console.log(allColors)
       // return allColors
-      return allColors.join(" ")
+      return allColors.join("")
     })
     .catch((err) => console.log(err))
   return colorData
@@ -115,21 +115,42 @@ async function extractFramesFromVideo(videoFile, tmpFolder, coordinatesOfKeys) {
   return numFramesTotal
 }
 
+function binaryStringToBuffer(binaryString) {
+  const byteLength = Math.ceil(binaryString.length / 8)
+  const buffer = Buffer.alloc(byteLength)
+  for (let i = 0; i < binaryString.length; i++) {
+    const byteIndex = Math.floor(i / 8)
+    const bitIndex = i % 8
+    const bit = binaryString[i] === "1" ? 1 : 0
+    buffer[byteIndex] |= bit << (7 - bitIndex) // Assuming big-endian bit order
+  }
+  return buffer
+}
+function saveBinaryDataToFile(binaryString, filePath) {
+  const buffer = binaryStringToBuffer(binaryString)
+  // Use fs.appendFile to append to the file
+  fs.appendFile(filePath, buffer, (err) => {
+    if (err) {
+      console.error("Error appending to binary file:", err)
+    } else {
+      // console.log("Binary data appended successfully.")
+    }
+  })
+}
+
 // Ik wil er nog zorgen dat de laaste regel niet wordt overgeslagen
 function appendToFile(stp, currentFrame, totalFrames) {
-  // console.log("stp")
-  // console.log(stp)
-  // exit()
   let stringToAppend = stp
 
   if (currentFrame !== totalFrames) {
     stringToAppend += "\n"
   }
 
-  // fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
-  // fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
+  saveBinaryDataToFile(stringToAppend, OUTPUTFILE)
 
-  fs.writeFile(OUTPUTFILE, "b", 0b000000000000000000000000)
+  // fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
+  // fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
+  //  fs.writeFile(OUTPUTFILE, "b", 0b000000000000000000000000)
 }
 
 function readCoordinates(filePath) {
