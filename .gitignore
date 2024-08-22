@@ -17,3 +17,9 @@ scriptgenerator/*.png
 setupKeyboard/data/*.jpg
 setupKeyboard/data/*.png
 setupKeyboard/data/*.mp4
+
+.env
+
+videoFile.txt
+colortest.txt
+colortest.bin

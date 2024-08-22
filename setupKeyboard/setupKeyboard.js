@@ -33,8 +33,6 @@ let allKeyboards = []
 let saveButton
 let toggelChange
 
-function handleImage(file) {}
-
 function setup() {
   createCanvas(1400, 500)
   // createCanvas(1150, 250);

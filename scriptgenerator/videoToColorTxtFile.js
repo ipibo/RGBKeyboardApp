@@ -1,15 +1,26 @@
 /* eslint-disable no-console */
 // libraries
+
+if (process.env.PASSWORD === undefined) {
+  console.log("no env file found")
+  console.log("please use the --env-file=.env flag")
+  console.log("exaple")
+  console.log("node videoToColorTxtFile.js --env-file=.env YOURVIDEOFILE.MOV")
+  process.exit(1)
+}
+
 const extractFrame = require("ffmpeg-extract-frames")
 const fs = require("fs")
 const Jimp = require("jimp")
 const probe = require("ffmpeg-probe")
+const { Client } = require("node-scp")
 
 // Consts
 const COORDSFILE = "newCoordinates.txt"
 const TMPFOLDER = "tmpfolder"
 const VIDEO = "30vs120.mp4"
-const OUTPUTFILE = "../frameTester/data/colortest.bin"
+// const OUTPUTFILE = "../frameTester/data/colortest.txt"
+const OUTPUTFILE = "videoFile.txt"
 
 function componentToHex(c) {
   const hex = c.toString(16)
@@ -27,8 +38,10 @@ async function analyseFrame(coordinatesOfKeys, startFrame) {
 
       coordinatesOfKeys.forEach((c) => {
         const rgb = Jimp.intToRGBA(image.getPixelColor(c[0], c[1]))
-        //        console.log(image.getPixelColor(c[0], c[1]), rgb)
+
+        // console.log(rgb)
         const hex = rgbToHex(rgb.r, rgb.g, rgb.b)
+        // console.log(hex)
 
         const binary =
           rgb.r.toString(2).padStart(8, "0") +
@@ -42,7 +55,7 @@ async function analyseFrame(coordinatesOfKeys, startFrame) {
           (1.0).toFixed(1),
         ]
 
-        allColors.push(binary)
+        allColors.push(hex)
       })
       // console.log(allColors)
       // return allColors
@@ -108,6 +121,7 @@ async function extractFramesFromVideo(videoFile, tmpFolder, coordinatesOfKeys) {
         coordinatesOfKeys,
         `${tmpFolder}/frame-${i}.png`
       )
+      // console.log(frameAnalysisResults)
       appendToFile(frameAnalysisResults, i, numFramesTotal)
     }
   }
@@ -146,9 +160,9 @@ function appendToFile(stp, currentFrame, totalFrames) {
     stringToAppend += "\n"
   }
 
-  saveBinaryDataToFile(stringToAppend, OUTPUTFILE)
+  // saveBinaryDataToFile(stringToAppend, OUTPUTFILE)
 
-  // fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
+  fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
   // fs.appendFileSync(OUTPUTFILE, `${stringToAppend}`)
   //  fs.writeFile(OUTPUTFILE, "b", 0b000000000000000000000000)
 }
@@ -166,6 +180,28 @@ const start = async (video, outputfile) => {
   const coordinatesOfKeys = readCoordinates(COORDSFILE)
   await extractFramesFromVideo(video, TMPFOLDER, coordinatesOfKeys)
   removeFolder(TMPFOLDER)
+
+  Client({
+    host: "gamerkeyboard.local",
+    port: 22,
+    username: "gamer",
+    password: "keyboard",
+    // privateKey: fs.readFileSync('./key.pem'),
+    // passphrase: 'your key passphrase',
+  })
+    .then((client) => {
+      client
+        .uploadFile(
+          OUTPUTFILE,
+          `/home/gamer/DotStarPiPainter/${OUTPUTFILE}`
+          // options?: TransferOptions
+        )
+        .then((response) => {
+          client.close() // remember to close connection after you finish
+        })
+        .catch((error) => {})
+    })
+    .catch((e) => console.log(e))
 }
 
 if (process.argv[2] != null) {
