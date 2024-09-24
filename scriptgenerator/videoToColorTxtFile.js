@@ -1,5 +1,14 @@
 /* eslint-disable no-console */
 // libraries
+
+// if (process.env.PASSWORD === undefined) {
+//   console.log("no env file found")
+//   console.log("please use the --env-file=.env flag")
+//   console.log("exaple")
+//   console.log("node videoToColorTxtFile.js --env-file=.env YOURVIDEOFILE.MOV")
+//   process.exit(1)
+// }
+
 const extractFrame = require("ffmpeg-extract-frames")
 const fs = require("fs")
 const Jimp = require("jimp")
@@ -195,13 +204,9 @@ const start = async (video, outputfile) => {
     .catch((e) => console.log(e))
 }
 
-let readline = require("readline")
-
-let rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-})
-
-rl.question("Please enter the file name: ", function (fileName) {
-  start(fileName, OUTPUTFILE)
-})
+if (process.argv[2] != null) {
+  console.log("start to render outputfile ")
+  start(process.argv[2], OUTPUTFILE)
+} else {
+  console.log("please provide file SJEF  ")
+}
